@@ -1,0 +1,11 @@
+{
+  "name": "micro_train",
+  "version": "0.9.0",
+  "title": "Micro Trains",
+  "author": "Kabury",
+  "description": "Adds REALLY small trains",
+  "factorio_version": "2.0",
+  "dependencies": [
+    "base >= 2.0.67"
+  ]
+}
