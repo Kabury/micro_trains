@@ -106,7 +106,12 @@ micro_wagon.pictures={rotated={filename="__micro_train__/graphics/Item.png",widt
 micro_wagon.wheels=nil
 micro_wagon.horizontal_doors=nil
 micro_wagon.vertical_doors=nil
-micro_wagon.max_speed = 2.4
+
+micro_wagon.weight = 1000/2
+micro_wagon.max_speed = 1.5*math.sqrt(2)
+micro_wagon.braking_force = 3*4
+micro_wagon.friction_force = 0.50/2
+micro_wagon.air_resistance = 0.01/2
 
 -- 2. CARGO WAGON
 local micro_tank = table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"])
@@ -122,8 +127,14 @@ micro_tank.pictures={rotated={filename="__micro_train__/graphics/Fluid.png",widt
 micro_tank.wheels=nil
 micro_tank.horizontal_doors=nil
 micro_tank.vertical_doors=nil
-micro_tank.tank_count = 1.25
+micro_tank.tank_count = 1
 micro_tank.capacity = settings.startup["micro-tank-size"].value
+
+micro_tank.weight = 1000/2
+micro_tank.max_speed = 1.5*math.sqrt(2)
+micro_tank.braking_force = 3*4
+micro_tank.friction_force = 0.50/2
+micro_tank.air_resistance = 0.01/2
 
 -- 3. LOCOMOTIVE
 local micro_loco = table.deepcopy(data.raw["locomotive"]["locomotive"])
@@ -144,12 +155,15 @@ micro_loco.energy_source = {
 }
 micro_loco.pictures = { rotated = { layers = { { filename = "__micro_train__/graphics/blank.png", size = 1, direction_count = 1 } } } }
 micro_loco.wheels = nil
-micro_loco.max_speed = 2.4
-micro_loco.max_power = "1200kW"
+
+micro_loco.weight= 2000 / 2
+micro_loco.max_speed = 1.2 * math.sqrt(2)
+micro_loco.max_power = 600*2 .. "kW"
 micro_loco.reversing_power_modifier = 1
-micro_loco.braking_force = 20
-micro_loco.friction_force = 0.250
-micro_loco.air_resistance = 0.00375
+micro_loco.braking_force = 10*4
+micro_loco.friction_force = 0.5/2
+micro_loco.air_resistance = 0.0075/2
+
 
 
 data:extend({micro_wagon, micro_loco, micro_tank})

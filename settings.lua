@@ -3,7 +3,7 @@ data:extend({
     type = "int-setting",
     name = "micro-wagon-size",
     setting_type = "startup",
-    default_value = 5,
+    default_value = 10,
     minimum_value = 1,
     maximum_value = 100,
     order = "a"
