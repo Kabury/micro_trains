@@ -5,7 +5,7 @@
     "base >= 2.1"
   ],
   "name": "micro_train",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "title": "Furnace Wagons",
   "author": "Kabury",
   "description": "Adds REALLY small trains. Includes fluid version."
