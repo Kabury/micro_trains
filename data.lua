@@ -1,3 +1,5 @@
+local meld = require("meld")
+
 data:extend({
   {
     type = "item-with-entity-data",
@@ -91,79 +93,83 @@ data:extend({
   }
 })
 
--- 2. CARGO WAGON
-local micro_wagon = table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"])
-micro_wagon.name = "micro_wagon"
-micro_wagon.minable = {mining_time = 1, result = "micro_wagon"}
-micro_wagon.inventory_size = settings.startup["micro-wagon-size"].value
-micro_wagon.max_speed = 0.5
-micro_wagon.vertical_selection_shift = -1
-micro_wagon.selection_box = {{-1.1, -0.25}, {1.1, 0.25}}
-micro_wagon.collision_box = {{-1.1, -0.25}, {1.1, 0.25}}
-micro_wagon.joint_distance = 0.1
-micro_wagon.connection_distance = 0.85
-micro_wagon.pictures={rotated={filename="__micro_train__/graphics/Item.png",width=256,height=256,direction_count=128,line_length=8,scale=0.5,counterclockwise=true,shift = {0, -1},apply_projection=false}}
-micro_wagon.wheels=nil
-micro_wagon.horizontal_doors=nil
-micro_wagon.vertical_doors=nil
-
-micro_wagon.weight = 1000/2
-micro_wagon.max_speed = 1.5*math.sqrt(2)
-micro_wagon.braking_force = 3*4
-micro_wagon.friction_force = 0.50/2
-micro_wagon.air_resistance = 0.01/2
+local join = 0.1
+local connection = 0.65
+local collision = {{-1.1, -0.25}, {1.1, 0.25}}
+local selection = {{-1.1, -0.5}, {1.1, 0.5}}
+local friction = 0.50/2
+local vertical = -0.5
 
 -- 2. CARGO WAGON
-local micro_tank = table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"])
-micro_tank.name = "micro_tank"
-micro_tank.minable = {mining_time = 1, result = "micro_tank"}
-micro_tank.max_speed = 0.5
-micro_tank.vertical_selection_shift = -1
-micro_tank.selection_box = {{-1.1, -0.25}, {1.1, 0.25}}
-micro_tank.collision_box = {{-1.1, -0.25}, {1.1, 0.25}}
-micro_tank.joint_distance = 0.1
-micro_tank.connection_distance = 0.85
-micro_tank.pictures={rotated={filename="__micro_train__/graphics/Fluid.png",width=256,height=256,direction_count=128,line_length=8,scale=0.5,counterclockwise=true,shift = {0, -1}}}
-micro_tank.wheels=nil
-micro_tank.horizontal_doors=nil
-micro_tank.vertical_doors=nil
-micro_tank.tank_count = 1
-micro_tank.capacity = settings.startup["micro-tank-size"].value
+data:extend{meld.meld(table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"]),{
+  name = "micro_wagon",
+  minable = {mining_time = 1, result = "micro_wagon"},
+  inventory_size = settings.startup["micro-wagon-size"].value --[[@as integer]], 
+  vertical_selection_shift = vertical,
+  selection_box = selection,
+  collision_box = collision,
+  joint_distance = join,
+  connection_distance = connection,
+  pictures=meld.overwrite({rotated={filename="__micro_train__/graphics/Item.png",width=256,height=256,direction_count=128,line_length=8,scale=0.5,counterclockwise=true,shift = {0, -1},apply_projection=false}}),
+  wheels= meld.delete(),
+  horizontal_doors= meld.delete(),
+  vertical_doors= meld.delete(),
+  weight = 1000/2,
+  max_speed = 1.5*math.sqrt(2),
+  braking_force = 3*4,
+  friction_force = friction,
+  air_resistance = 0.01/2
+})}
 
-micro_tank.weight = 1000/2
-micro_tank.max_speed = 1.5*math.sqrt(2)
-micro_tank.braking_force = 3*4
-micro_tank.friction_force = 0.50/2
-micro_tank.air_resistance = 0.01/2
+-- 2. CARGO WAGON
+data:extend{meld.meld(table.deepcopy(data.raw["fluid-wagon"]["fluid-wagon"]),{
+  name = "micro_tank",
+  minable = {mining_time = 1, result = "micro_tank"},
+  tank_count = 1,
+  capacity = settings.startup["micro-tank-size"].value --[[@as integer]],
+  vertical_selection_shift = vertical,
+  selection_box = selection,
+  collision_box = collision,
+  joint_distance = join,
+  connection_distance = connection,
+  pictures=meld.overwrite({rotated={filename="__micro_train__/graphics/Fluid.png",width=256,height=256,direction_count=128,line_length=8,scale=0.5,counterclockwise=true,shift = {0, -1},apply_projection=false}}),
+  wheels= meld.delete(),
+  horizontal_doors= meld.delete(),
+  vertical_doors= meld.delete(),
+  weight = 1000/2,
+  max_speed = 1.5*math.sqrt(2),
+  braking_force = 3*4,
+  friction_force = friction,
+  air_resistance = 0.01/2
+})}
+
 
 -- 3. LOCOMOTIVE
-local micro_loco = table.deepcopy(data.raw["locomotive"]["locomotive"])
-micro_loco.name = "micro_loco"
-micro_loco.minable = {mining_time = 0.5}
-micro_loco.flags = {"placeable-neutral", "player-creation", "not-on-map"}
-micro_loco.selectable_in_game = false
-micro_loco.vertical_selection_shift = -1
-micro_loco.collision_box = {{-1.1, -0.25}, {1.1, 0.25}} 
-micro_loco.selection_box = {{-1.1, -0.25}, {1.1, 0.25}}
-micro_loco.joint_distance = 0.1 -- Set slightly higher than 0.5 to satisfy the 0.2 border requirement
-micro_loco.connection_distance = 0.85
-micro_loco.energy_source = {
+data:extend{meld.meld(table.deepcopy(data.raw["locomotive"]["locomotive"]),{
+  name = "micro_loco",
+  minable = {mining_time = 1, result = meld.delete()},
+  vertical_selection_shift = vertical,
+  selection_box = selection,
+  collision_box = collision,
+  joint_distance = join, -- Set slightly higher than 0.5 to satisfy the 0.2 border requirement
+  connection_distance = connection,
+  pictures=meld.overwrite({rotated={filename = "__micro_train__/graphics/blank.png", size = 1, direction_count = 1}}),
+  wheels= meld.delete(),
+  horizontal_doors= meld.delete(),
+  vertical_doors= meld.delete(),
+  weight = 2000/2,
+  max_speed = 1.2*math.sqrt(2),
+  braking_force = 10*4,
+  friction_force = friction,
+  air_resistance = 0.0075/2,
+  flags = meld.append( {"not-on-map"}),
+  energy_source = meld.overwrite({
     type = "burner",
     fuel_categories = {"chemical"},
     effectivity = 1,
-    fuel_inventory_size = 1
-}
-micro_loco.pictures = { rotated = { layers = { { filename = "__micro_train__/graphics/blank.png", size = 1, direction_count = 1 } } } }
-micro_loco.wheels = nil
-
-micro_loco.weight= 2000 / 2
-micro_loco.max_speed = 1.2 * math.sqrt(2)
-micro_loco.max_power = 600*2 .. "kW"
-micro_loco.reversing_power_modifier = 1
-micro_loco.braking_force = 10*4
-micro_loco.friction_force = 0.5/2
-micro_loco.air_resistance = 0.0075/2
+    fuel_inventory_size = 1 }),
+  max_power = 600*2 .. "kW",
+  reversing_power_modifier = 1
+})}
 
 
-
-data:extend({micro_wagon, micro_loco, micro_tank})
