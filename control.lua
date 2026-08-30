@@ -26,7 +26,8 @@ local function on_created(event)
       raise_built = true
     }
     if not (engine and engine.valid) then
-        entity.force.print("Failed to spawn locomotive for wagon")
+      ---@cast entity.force LuaForce
+      entity.force.print("Failed to spawn locomotive for wagon")
     end
   end
 end
@@ -72,7 +73,8 @@ script.on_event(defines.events.on_train_created, function(event)
     for _, c in pairs(train_parts) do
       c.disconnect_rolling_stock(defines.rail_direction.front)
       c.disconnect_rolling_stock(defines.rail_direction.back)
-      c.force.print("Disconnected all wagons due to trying to connect microwagons")
+      ---@cast c.force LuaForce
+      c.force.print("Disconnected all wagons due to trying to connect microwagons") 
     end
   end
 end)
