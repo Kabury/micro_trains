@@ -2,6 +2,7 @@
 Version: 1.0.4
 Date: ????
   Changes:
+    - Changed collision boxes just in case the engine doesn't like the previous ones 
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.3
 Date: 2026-08-30

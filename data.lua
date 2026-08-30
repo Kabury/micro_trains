@@ -95,7 +95,7 @@ data:extend({
 
 local join = 0.1
 local connection = 0.65
-local collision = {{-1.1, -0.25}, {1.1, 0.25}}
+local collision = {{-1.1, -0.3}, {1.1, 0.3}}
 local selection = {{-1.1, -0.5}, {1.1, 0.5}}
 local friction = 0.50/2
 local vertical = -0.5
